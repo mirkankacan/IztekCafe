@@ -18,7 +18,7 @@ namespace IztekCafe.Persistance.Repositories
             return true;
         }
 
-        public async Task<Stock?> GetByIdWithProduct(int id, CancellationToken cancellationToken)
+        public async Task<Stock?> GetByIdWithProductAsync(int id, CancellationToken cancellationToken)
         {
             return await context.Stocks
                  .AsNoTracking()
@@ -26,7 +26,7 @@ namespace IztekCafe.Persistance.Repositories
                  .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<PagedResult<Stock?>> GetPagedWithProduct(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<PagedResult<Stock?>> GetPagedWithProductAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var stocks = await context.Stocks
               .AsNoTracking()
@@ -39,7 +39,7 @@ namespace IztekCafe.Persistance.Repositories
             return pagedResult;
         }
 
-        public async Task<IEnumerable<Stock?>> GetWithProduct(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Stock?>> GetWithProductAsync(CancellationToken cancellationToken)
         {
             return await context.Stocks
                .AsNoTracking()

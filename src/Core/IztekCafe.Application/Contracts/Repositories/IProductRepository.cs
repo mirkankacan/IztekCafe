@@ -5,8 +5,10 @@ namespace IztekCafe.Application.Contracts.Repositories
 {
     public interface IProductRepository : IGenericRepository<Product, int>
     {
-        Task<IEnumerable<Product?>> GetWithCategoryAndStock(CancellationToken cancellationToken);
-        Task<PagedResult<Product?>> GetPagedWithCategory(int pageNumer, int pageSize, CancellationToken cancellationToken);
-        Task<Product?> GetByIdWithCategoryAndStock(int id, CancellationToken cancellationToken);
+        Task<IEnumerable<Product?>> GetWithCategoryAndStockAsync(CancellationToken cancellationToken);
+
+        Task<PagedResult<Product?>> GetPagedWithCategoryAsync(int pageNumer, int pageSize, CancellationToken cancellationToken);
+
+        Task<Product?> GetByIdWithCategoryAndStockAsync(int id, CancellationToken cancellationToken);
     }
 }

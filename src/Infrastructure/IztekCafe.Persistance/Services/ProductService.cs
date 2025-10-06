@@ -21,14 +21,13 @@ namespace IztekCafe.Persistance.Services
             if (!hasAnyCategory)
             {
                 return ServiceResult<ProductDto>.Error("Kategori bulunamadı", HttpStatusCode.BadRequest);
-
             }
             var newProduct = dto.Adapt<Product>();
 
             await unitOfWork.Products.AddAsync(newProduct, cancellationToken);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var createdProduct = await unitOfWork.Products.GetByIdWithCategoryAndStock(newProduct.Id, cancellationToken);
+            var createdProduct = await unitOfWork.Products.GetByIdWithCategoryAndStockAsync(newProduct.Id, cancellationToken);
             var mappedProduct = createdProduct.Adapt<ProductDto>();
             return ServiceResult<ProductDto>.SuccessAsCreated(mappedProduct, $"/api/products/{mappedProduct.Id}");
         }
@@ -47,21 +46,21 @@ namespace IztekCafe.Persistance.Services
 
         public async Task<ServiceResult<IEnumerable<ProductDto?>>> GetAsync(CancellationToken cancellationToken)
         {
-            var products = await unitOfWork.Products.GetWithCategoryAndStock(cancellationToken);
+            var products = await unitOfWork.Products.GetWithCategoryAndStockAsync(cancellationToken);
             var mappedProducts = products?.Adapt<IEnumerable<ProductDto?>>();
             return ServiceResult<IEnumerable<ProductDto?>>.SuccessAsOk(mappedProducts);
         }
 
         public async Task<ServiceResult<ProductDetailDto?>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var product = await unitOfWork.Products.GetByIdWithCategoryAndStock(id, cancellationToken);
+            var product = await unitOfWork.Products.GetByIdWithCategoryAndStockAsync(id, cancellationToken);
             var mappedProduct = product?.Adapt<ProductDetailDto?>();
             return ServiceResult<ProductDetailDto?>.SuccessAsOk(mappedProduct);
         }
 
         public async Task<ServiceResult<PagedResult<ProductDto?>>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var products = await unitOfWork.Products.GetPagedWithCategory(pageNumber, pageSize, cancellationToken);
+            var products = await unitOfWork.Products.GetPagedWithCategoryAsync(pageNumber, pageSize, cancellationToken);
             var mappedProducts = products.Data?.Adapt<IEnumerable<ProductDto?>>();
             PagedResult<ProductDto?> pagedResult = new(mappedProducts, products.TotalCount, pageNumber, pageSize);
             return ServiceResult<PagedResult<ProductDto?>>.SuccessAsOk(pagedResult);
@@ -83,13 +82,12 @@ namespace IztekCafe.Persistance.Services
             if (!hasAnyCategory)
             {
                 return ServiceResult<ProductDto>.Error("Kategori bulunamadı", HttpStatusCode.BadRequest);
-
             }
             var updateProduct = dto.Adapt(product);
             unitOfWork.Products.Update(updateProduct);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var updatedProduct = await unitOfWork.Products.GetByIdWithCategoryAndStock(id, cancellationToken);
+            var updatedProduct = await unitOfWork.Products.GetByIdWithCategoryAndStockAsync(id, cancellationToken);
             var mappedProduct = updatedProduct.Adapt<ProductDto>();
             return ServiceResult<ProductDto>.SuccessAsOk(mappedProduct);
         }

@@ -27,7 +27,7 @@ namespace IztekCafe.Persistance.Services
             await unitOfWork.Stocks.AddAsync(newStock, cancellationToken);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var createdStock = await unitOfWork.Stocks.GetByIdWithProduct(newStock.Id, cancellationToken);
+            var createdStock = await unitOfWork.Stocks.GetByIdWithProductAsync(newStock.Id, cancellationToken);
             var mappedStock = createdStock.Adapt<StockDto>();
             return ServiceResult<StockDto>.SuccessAsCreated(mappedStock, $"/api/stocks/{mappedStock.Id}");
         }
@@ -57,21 +57,21 @@ namespace IztekCafe.Persistance.Services
 
         public async Task<ServiceResult<IEnumerable<StockDto?>>> GetAsync(CancellationToken cancellationToken)
         {
-            var stocks = await unitOfWork.Stocks.GetWithProduct(cancellationToken);
+            var stocks = await unitOfWork.Stocks.GetWithProductAsync(cancellationToken);
             var mappedstocks = stocks?.Adapt<IEnumerable<StockDto?>>();
             return ServiceResult<IEnumerable<StockDto?>>.SuccessAsOk(mappedstocks);
         }
 
         public async Task<ServiceResult<StockDetailDto?>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var stock = await unitOfWork.Stocks.GetByIdWithProduct(id, cancellationToken);
+            var stock = await unitOfWork.Stocks.GetByIdWithProductAsync(id, cancellationToken);
             var mappedstock = stock?.Adapt<StockDetailDto?>();
             return ServiceResult<StockDetailDto?>.SuccessAsOk(mappedstock);
         }
 
         public async Task<ServiceResult<PagedResult<StockDto?>>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
-            var stocks = await unitOfWork.Stocks.GetPagedWithProduct(pageNumber, pageSize, cancellationToken);
+            var stocks = await unitOfWork.Stocks.GetPagedWithProductAsync(pageNumber, pageSize, cancellationToken);
             var mappedstocks = stocks.Data?.Adapt<IEnumerable<StockDto?>>();
             PagedResult<StockDto?> pagedResult = new(mappedstocks, stocks.TotalCount, pageNumber, pageSize);
             return ServiceResult<PagedResult<StockDto?>>.SuccessAsOk(pagedResult);
@@ -104,7 +104,7 @@ namespace IztekCafe.Persistance.Services
             unitOfWork.Stocks.Update(updateStock);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var updatedStock = await unitOfWork.Stocks.GetByIdWithProduct(id, cancellationToken);
+            var updatedStock = await unitOfWork.Stocks.GetByIdWithProductAsync(id, cancellationToken);
             var mappedstock = updatedStock.Adapt<StockDto>();
             return ServiceResult<StockDto>.SuccessAsOk(mappedstock);
         }

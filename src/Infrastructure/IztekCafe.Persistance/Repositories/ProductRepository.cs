@@ -8,7 +8,7 @@ namespace IztekCafe.Persistance.Repositories
 {
     public class ProductRepository(AppDbContext context) : GenericRepository<Product, int>(context), IProductRepository
     {
-        public async Task<Product?> GetByIdWithCategoryAndStock(int id, CancellationToken cancellationToken)
+        public async Task<Product?> GetByIdWithCategoryAndStockAsync(int id, CancellationToken cancellationToken)
         {
             return await context.Products
                  .AsNoTracking()
@@ -17,7 +17,7 @@ namespace IztekCafe.Persistance.Repositories
                  .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<PagedResult<Product?>> GetPagedWithCategory(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<PagedResult<Product?>> GetPagedWithCategoryAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var products = await context.Products
              .AsNoTracking()
@@ -31,7 +31,7 @@ namespace IztekCafe.Persistance.Repositories
             return pagedResult;
         }
 
-        public async Task<IEnumerable<Product?>> GetWithCategoryAndStock(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Product?>> GetWithCategoryAndStockAsync(CancellationToken cancellationToken)
         {
             return await context.Products
                 .AsNoTracking()
