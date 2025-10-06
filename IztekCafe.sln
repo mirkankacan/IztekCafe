@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{EACEEB15-8625-46B0-97F7-5D58C582DB0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9BA4A72C-426A-427D-8343-6C39837BD750}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{D8E7A457-7422-4A42-8DDE-C91473BD75BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IztekCafe.WebApi", "src\Api\IztekCafe.WebApi\IztekCafe.WebApi.csproj", "{F87EAAE7-014D-4F7C-9FD2-E66DE1F14182}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IztekCafe.Application", "src\Core\IztekCafe.Application\IztekCafe.Application.csproj", "{AA908500-EE02-4327-A490-F716359ACA5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IztekCafe.Domain", "src\Core\IztekCafe.Domain\IztekCafe.Domain.csproj", "{7C465BD7-4501-4442-BB02-4A4516C17806}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IztekCafe.Persistance", "src\Infrastructure\IztekCafe.Persistance\IztekCafe.Persistance.csproj", "{47AFA1A7-8034-41BC-8FAC-BB1D8468C953}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F87EAAE7-014D-4F7C-9FD2-E66DE1F14182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F87EAAE7-014D-4F7C-9FD2-E66DE1F14182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F87EAAE7-014D-4F7C-9FD2-E66DE1F14182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F87EAAE7-014D-4F7C-9FD2-E66DE1F14182}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA908500-EE02-4327-A490-F716359ACA5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA908500-EE02-4327-A490-F716359ACA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA908500-EE02-4327-A490-F716359ACA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA908500-EE02-4327-A490-F716359ACA5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C465BD7-4501-4442-BB02-4A4516C17806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C465BD7-4501-4442-BB02-4A4516C17806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C465BD7-4501-4442-BB02-4A4516C17806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C465BD7-4501-4442-BB02-4A4516C17806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47AFA1A7-8034-41BC-8FAC-BB1D8468C953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47AFA1A7-8034-41BC-8FAC-BB1D8468C953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47AFA1A7-8034-41BC-8FAC-BB1D8468C953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47AFA1A7-8034-41BC-8FAC-BB1D8468C953}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EACEEB15-8625-46B0-97F7-5D58C582DB0A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{9BA4A72C-426A-427D-8343-6C39837BD750} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D8E7A457-7422-4A42-8DDE-C91473BD75BA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F87EAAE7-014D-4F7C-9FD2-E66DE1F14182} = {D8E7A457-7422-4A42-8DDE-C91473BD75BA}
+		{AA908500-EE02-4327-A490-F716359ACA5A} = {EACEEB15-8625-46B0-97F7-5D58C582DB0A}
+		{7C465BD7-4501-4442-BB02-4A4516C17806} = {EACEEB15-8625-46B0-97F7-5D58C582DB0A}
+		{47AFA1A7-8034-41BC-8FAC-BB1D8468C953} = {9BA4A72C-426A-427D-8343-6C39837BD750}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AED90C8A-4DB8-448D-9A80-C7D5C441A16E}
+	EndGlobalSection
+EndGlobal
