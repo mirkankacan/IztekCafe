@@ -5,6 +5,11 @@ namespace IztekCafe.Domain.Entities
 {
     public class Category : BaseEntity<int>
     {
+        public Category()
+        {
+            Status = 0;
+        }
+
         public string Name { get; set; } = null!;
         public CategoryStatus Status { get; set; }
         public ICollection<Product> Products { get; set; } = new List<Product>();

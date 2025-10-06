@@ -10,17 +10,13 @@ namespace IztekCafe.Application.Contracts.Repositories
 
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
 
-        ValueTask<T?> GetByIdAsync(string id, CancellationToken cancellationToken);
+        ValueTask<T?> GetByIdAsync(TId id, CancellationToken cancellationToken);
 
         Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
 
         Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
 
         Task<PagedResult<T>> GetAllPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
-
-        IQueryable<T> Where(Expression<Func<T, bool>> predicate);
-
-        IQueryable<T> WhereAsNoTracking(Expression<Func<T, bool>>? predicate);
 
         Task AddAsync(T entity, CancellationToken cancellationToken);
 

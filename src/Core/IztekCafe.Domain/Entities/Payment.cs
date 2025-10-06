@@ -9,6 +9,7 @@ namespace IztekCafe.Domain.Entities
         public Payment()
         {
             Id = NewId.NextGuid();
+            Status = 0;
         }
 
         public PaymentStatus Status { get; set; }

@@ -173,6 +173,9 @@ namespace IztekCafe.Persistance.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -181,6 +184,39 @@ namespace IztekCafe.Persistance.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("IztekCafe.Domain.Entities.Stock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
+
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("IztekCafe.Domain.Entities.Table", b =>
@@ -262,6 +298,17 @@ namespace IztekCafe.Persistance.Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("IztekCafe.Domain.Entities.Stock", b =>
+                {
+                    b.HasOne("IztekCafe.Domain.Entities.Product", "Product")
+                        .WithOne("Stock")
+                        .HasForeignKey("IztekCafe.Domain.Entities.Stock", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("IztekCafe.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -277,6 +324,8 @@ namespace IztekCafe.Persistance.Data.Migrations
             modelBuilder.Entity("IztekCafe.Domain.Entities.Product", b =>
                 {
                     b.Navigation("OrderItems");
+
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("IztekCafe.Domain.Entities.Table", b =>

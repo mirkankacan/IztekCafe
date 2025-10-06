@@ -9,6 +9,7 @@ namespace IztekCafe.Domain.Entities
         public Order()
         {
             Id = NewId.NextGuid();
+            Status = 0;
         }
 
         public string OrderCode { get; set; } = null!;

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IztekCafe.Application
 {
@@ -6,6 +8,10 @@ namespace IztekCafe.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddMapster();
+            services.AddValidatorsFromAssembly(typeof(ApplicationAssembly).Assembly);
+            var config = TypeAdapterConfig.GlobalSettings;
+            config.Scan(typeof(ApplicationAssembly).Assembly);
             return services;
         }
     }

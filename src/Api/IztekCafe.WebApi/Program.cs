@@ -1,3 +1,4 @@
+using Carter;
 using IztekCafe.Application;
 using IztekCafe.Persistance;
 using IztekCafe.WebApi;
@@ -15,8 +16,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+    app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.MapCarter();
 app.Run();

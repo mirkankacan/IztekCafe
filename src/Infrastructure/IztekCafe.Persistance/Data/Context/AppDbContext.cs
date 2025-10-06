@@ -12,6 +12,7 @@ namespace IztekCafe.Persistance.Data.Context
         public DbSet<Payment> Payments => Set<Payment>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Table> Tables => Set<Table>();
+        public DbSet<Stock> Stocks => Set<Stock>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
