@@ -12,7 +12,7 @@ namespace IztekCafe.Persistance.Services
 {
     public class OrderService(IUnitOfWork unitOfWork) : IOrderService
     {
-        public async Task<ServiceResult> CancelOrderAsync(Guid orderId, CancellationToken cancellationToken)
+        public async Task<ServiceResult> CancelAsync(Guid orderId, CancellationToken cancellationToken)
         {
             try
             {
@@ -62,11 +62,11 @@ namespace IztekCafe.Persistance.Services
                 {
                     return ServiceResult<OrderDto>.Error("Sipariş için masa bulunamadı", HttpStatusCode.NotFound);
                 }
-                var isOccupiedTable = await unitOfWork.Tables.AnyAsync(x => x.Id == dto.TableId && (x.Status == TableStatus.Reserved || x.Status == TableStatus.Occupied), cancellationToken);
+                var isOccupiedTable = await unitOfWork.Tables.AnyAsync(x => x.Id == dto.TableId && x.Status == TableStatus.Occupied, cancellationToken);
 
                 if (isOccupiedTable)
                 {
-                    return ServiceResult<OrderDto>.Error("Sipariş için masa dolu veya rezerve edilmiş", HttpStatusCode.BadRequest);
+                    return ServiceResult<OrderDto>.Error("Sipariş için masa dolu", HttpStatusCode.BadRequest);
                 }
                 if (!dto.OrderItems.Any())
                 {
@@ -77,6 +77,7 @@ namespace IztekCafe.Persistance.Services
 
                 await unitOfWork.Orders.AddAsync(newOrder, cancellationToken);
 
+                var orderItems = new List<OrderItem>();
                 foreach (var item in dto.OrderItems)
                 {
                     var product = await unitOfWork.Products.GetFirstOrDefaultAsync(x => x.Id == item.ProductId, cancellationToken);
@@ -85,13 +86,14 @@ namespace IztekCafe.Persistance.Services
                         await unitOfWork.RollbackTransactionAsync(cancellationToken);
                         return ServiceResult<OrderDto>.Error("Sipariş için ürün bulunamadı", HttpStatusCode.NotFound);
                     }
-                    var hasStock = await unitOfWork.Stocks.AnyAsync(x => x.ProductId == item.ProductId && x.Quantity >= item.Quantity, cancellationToken);
 
+                    var hasStock = await unitOfWork.Stocks.AnyAsync(x => x.ProductId == item.ProductId && x.Quantity >= item.Quantity, cancellationToken);
                     if (!hasStock)
                     {
                         await unitOfWork.RollbackTransactionAsync(cancellationToken);
                         return ServiceResult<OrderDto>.Error($"Sipariş için {product.Name} ürününün yetersiz stoğu var", HttpStatusCode.BadRequest);
                     }
+
                     var orderItem = new OrderItem
                     {
                         OrderId = newOrder.Id,
@@ -100,9 +102,15 @@ namespace IztekCafe.Persistance.Services
                         Price = product.Price
                     };
 
-                    await unitOfWork.OrderItems.AddAsync(orderItem, cancellationToken);
-                    await unitOfWork.Stocks.DecreaseStockAsync(item.ProductId, item.Quantity, cancellationToken);
+                    orderItems.Add(orderItem);
                     newOrder.TotalAmount += orderItem.TotalPrice;
+                }
+
+                await unitOfWork.OrderItems.AddRangeAsync(orderItems, cancellationToken);
+
+                foreach (var item in dto.OrderItems)
+                {
+                    await unitOfWork.Stocks.DecreaseStockAsync(item.ProductId, item.Quantity, cancellationToken);
                 }
                 await unitOfWork.Tables.UpdateStatusAsync(dto.TableId, TableStatus.Occupied, cancellationToken);
                 await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -200,10 +208,10 @@ namespace IztekCafe.Persistance.Services
 
                 if (existingOrder.TableId != dto.TableId)
                 {
-                    var isOccupiedTable = await unitOfWork.Tables.AnyAsync(x => x.Id == dto.TableId && (x.Status == TableStatus.Reserved || x.Status == TableStatus.Occupied), cancellationToken);
+                    var isOccupiedTable = await unitOfWork.Tables.AnyAsync(x => x.Id == dto.TableId && x.Status == TableStatus.Occupied, cancellationToken);
                     if (isOccupiedTable)
                     {
-                        return ServiceResult.Error("Sipariş için masa dolu veya rezerve edilmiş", HttpStatusCode.BadRequest);
+                        return ServiceResult.Error("Sipariş için masa dolu", HttpStatusCode.BadRequest);
                     }
                 }
 

@@ -17,6 +17,6 @@ namespace IztekCafe.Application.Contracts.Services
 
         Task<ServiceResult> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<ServiceResult> CancelOrderAsync(Guid orderId, CancellationToken cancellationToken);
+        Task<ServiceResult> CancelAsync(Guid orderId, CancellationToken cancellationToken);
     }
 }

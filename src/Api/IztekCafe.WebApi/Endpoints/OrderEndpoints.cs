@@ -75,7 +75,7 @@ namespace IztekCafe.WebApi.Endpoints
 
             group.MapPut("/cancel/{id:guid}", async (Guid id, [FromServices] IOrderService orderService, CancellationToken cancellationToken) =>
             {
-                var result = await orderService.CancelOrderAsync(id, cancellationToken);
+                var result = await orderService.CancelAsync(id, cancellationToken);
                 return result.ToResult();
             })
            .WithName("CancelOrder")
