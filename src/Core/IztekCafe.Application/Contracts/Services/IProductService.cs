@@ -7,6 +7,8 @@ namespace IztekCafe.Application.Contracts.Services
     {
         Task<ServiceResult<IEnumerable<ProductDto?>>> GetAsync(CancellationToken cancellationToken);
 
+        Task<ServiceResult<IEnumerable<ProductDto?>>> GetActivesAsync(CancellationToken cancellationToken);
+
         Task<ServiceResult<PagedResult<ProductDto?>>> GetPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
 
         Task<ServiceResult<ProductDetailDto?>> GetByIdAsync(int id, CancellationToken cancellationToken);

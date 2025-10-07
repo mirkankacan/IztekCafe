@@ -3,6 +3,7 @@ using IztekCafe.Application.Contracts.UnitOfWork;
 using IztekCafe.Application.Dtos.Common;
 using IztekCafe.Application.Dtos.StockDtos;
 using IztekCafe.Domain.Entities;
+using IztekCafe.Domain.Enums;
 using Mapster;
 using System.Net;
 
@@ -17,7 +18,7 @@ namespace IztekCafe.Persistance.Services
             {
                 return ServiceResult<StockDto>.Error("Ürün için stok kaydı oluşturulmuş", HttpStatusCode.BadRequest);
             }
-            var hasProduct = await unitOfWork.Products.AnyAsync(x => x.Id == dto.ProductId, cancellationToken);
+            var hasProduct = await unitOfWork.Products.AnyAsync(x => x.Id == dto.ProductId && x.Status == ProductStatus.Active, cancellationToken);
             if (!hasProduct)
             {
                 return ServiceResult<StockDto>.Error("Stok oluşturmak için ilgili ürün bulunamadı", HttpStatusCode.NotFound);

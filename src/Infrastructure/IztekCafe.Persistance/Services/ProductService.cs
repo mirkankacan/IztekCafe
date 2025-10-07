@@ -44,6 +44,13 @@ namespace IztekCafe.Persistance.Services
             return ServiceResult.SuccessAsNoContent();
         }
 
+        public async Task<ServiceResult<IEnumerable<ProductDto?>>> GetActivesAsync(CancellationToken cancellationToken)
+        {
+            var products = await unitOfWork.Products.GetActivesWithCategoryAndStockAsync(cancellationToken);
+            var mappedProducts = products.Adapt<IEnumerable<ProductDto?>>();
+            return ServiceResult<IEnumerable<ProductDto?>>.SuccessAsOk(mappedProducts);
+        }
+
         public async Task<ServiceResult<IEnumerable<ProductDto?>>> GetAsync(CancellationToken cancellationToken)
         {
             var products = await unitOfWork.Products.GetWithCategoryAndStockAsync(cancellationToken);

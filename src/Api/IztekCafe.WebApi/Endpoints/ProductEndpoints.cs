@@ -40,6 +40,13 @@ namespace IztekCafe.WebApi.Endpoints
             })
                .WithName("GetAllProducts")
                .WithSummary("Tüm ürünleri getirir");
+            group.MapGet("/actives", async ([FromServices] IProductService productService, CancellationToken cancellationToken) =>
+            {
+                var result = await productService.GetActivesAsync(cancellationToken);
+                return result.ToGenericResult();
+            })
+         .WithName("GetAllActiveProducts")
+         .WithSummary("Tüm aktif ürünleri getirir");
 
             group.MapGet("/{id:int}", async (int id, [FromServices] IProductService productService, CancellationToken cancellationToken) =>
             {

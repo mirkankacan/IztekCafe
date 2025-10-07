@@ -10,5 +10,7 @@ namespace IztekCafe.Application.Contracts.Repositories
         Task<PagedResult<Product?>> GetPagedWithCategoryAsync(int pageNumer, int pageSize, CancellationToken cancellationToken);
 
         Task<Product?> GetByIdWithCategoryAndStockAsync(int id, CancellationToken cancellationToken);
+
+        Task<IEnumerable<Product?>> GetActivesWithCategoryAndStockAsync(CancellationToken cancellationToken);
     }
 }
