@@ -32,7 +32,7 @@ namespace IztekCafe.Persistance.Services
                     return ServiceResult<PaymentDto>.Error("Ödeme için bankadan dönen cevap başarısız", HttpStatusCode.BadRequest);
                 }
                 await unitOfWork.Payments.UpdateStatusAsync(newPayment.Id, PaymentStatus.Completed, cancellationToken);
-                await unitOfWork.Orders.UpdateStatusAsync(dto.OrderId, OrderStatus.Completed, cancellationToken);
+                await unitOfWork.Orders.UpdateStatusAsync(dto.OrderId, OrderStatus.Paid, cancellationToken);
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 
                 await unitOfWork.CommitTransactionAsync(cancellationToken);

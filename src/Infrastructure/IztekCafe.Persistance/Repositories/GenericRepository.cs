@@ -73,5 +73,10 @@ namespace IztekCafe.Persistance.Repositories
         {
             _dbSet.RemoveRange(entities);
         }
+
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
+        {
+            return _dbSet.Where(predicate);
+        }
     }
 }

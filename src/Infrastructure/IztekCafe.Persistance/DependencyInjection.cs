@@ -30,6 +30,8 @@ namespace IztekCafe.Persistance
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<ITableService, TableService>();
+            services.AddScoped<IOrderService, OrderService>();
             return services;
         }
     }

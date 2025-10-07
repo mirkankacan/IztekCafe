@@ -27,7 +27,7 @@ namespace IztekCafe.Persistance.Repositories
              .Include(x => x.Stock)
              .ToListAsync(cancellationToken);
             var count = await context.Products.CountAsync(cancellationToken);
-            PagedResult<Product> pagedResult = new(products, count, pageNumber, pageSize);
+            PagedResult<Product?> pagedResult = new(products, count, pageNumber, pageSize);
             return pagedResult;
         }
 

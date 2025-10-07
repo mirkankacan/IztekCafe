@@ -2,5 +2,5 @@
 
 namespace IztekCafe.Application.Dtos.OrderDtos
 {
-    public record CreateOrderDto(List<CreateOrderItemDto> OrderItems, int TableId);
+    public record UpdateOrderDto(List<OrderItemDto> OrderItems, int TableId, decimal TotalAmount);
 }

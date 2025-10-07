@@ -10,7 +10,7 @@ namespace IztekCafe.Persistance.Data.Configurations
         {
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id).ValueGeneratedNever();
-            builder.Property(o => o.OrderCode).IsRequired().HasMaxLength(20);
+            builder.Property(o => o.OrderCode).IsRequired().HasMaxLength(maxLength: 20);
             builder.Property(o => o.TableId).IsRequired();
             builder.Property(o => o.PaymentId);
             builder.Property(o => o.Status).IsRequired();

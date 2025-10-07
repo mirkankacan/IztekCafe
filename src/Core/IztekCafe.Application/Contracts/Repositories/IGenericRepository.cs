@@ -16,6 +16,8 @@ namespace IztekCafe.Application.Contracts.Repositories
 
         Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
 
+        IQueryable<T> Where(Expression<Func<T, bool>> predicate);
+
         Task<PagedResult<T>> GetAllPagedAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
 
         Task AddAsync(T entity, CancellationToken cancellationToken);
