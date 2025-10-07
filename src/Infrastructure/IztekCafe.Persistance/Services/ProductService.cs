@@ -3,6 +3,7 @@ using IztekCafe.Application.Contracts.UnitOfWork;
 using IztekCafe.Application.Dtos.Common;
 using IztekCafe.Application.Dtos.ProductDtos;
 using IztekCafe.Domain.Entities;
+using IztekCafe.Domain.Enums;
 using Mapster;
 using System.Net;
 
@@ -17,7 +18,7 @@ namespace IztekCafe.Persistance.Services
             {
                 return ServiceResult<ProductDto>.Error("Ürün adı kullanılıyor", HttpStatusCode.BadRequest);
             }
-            var hasAnyCategory = await unitOfWork.Categories.AnyAsync(x => x.Id == dto.CategoryId, cancellationToken);
+            var hasAnyCategory = await unitOfWork.Categories.AnyAsync(x => x.Id == dto.CategoryId && x.Status == CategoryStatus.Active, cancellationToken);
             if (!hasAnyCategory)
             {
                 return ServiceResult<ProductDto>.Error("Kategori bulunamadı", HttpStatusCode.NotFound);
@@ -85,7 +86,7 @@ namespace IztekCafe.Persistance.Services
             {
                 return ServiceResult.Error("Ürün adı kullanılıyor", HttpStatusCode.BadRequest);
             }
-            var hasAnyCategory = await unitOfWork.Categories.AnyAsync(x => x.Id == dto.CategoryId, cancellationToken);
+            var hasAnyCategory = await unitOfWork.Categories.AnyAsync(x => x.Id == dto.CategoryId && x.Status == CategoryStatus.Active, cancellationToken);
             if (!hasAnyCategory)
             {
                 return ServiceResult.Error("Kategori bulunamadı", HttpStatusCode.NotFound);
