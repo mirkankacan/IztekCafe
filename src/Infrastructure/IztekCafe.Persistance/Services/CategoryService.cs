@@ -60,24 +60,23 @@ namespace IztekCafe.Persistance.Services
             return ServiceResult<PagedResult<CategoryDto?>>.SuccessAsOk(pagedResult);
         }
 
-        public async Task<ServiceResult<CategoryDto>> UpdateAsync(int id, UpdateCategoryDto dto, CancellationToken cancellationToken)
+        public async Task<ServiceResult> UpdateAsync(int id, UpdateCategoryDto dto, CancellationToken cancellationToken)
         {
             var category = await unitOfWork.Categories.GetByIdAsync(id, cancellationToken);
             if (category is null)
             {
-                return ServiceResult<CategoryDto>.Error("Kategori bulunamadı", HttpStatusCode.NotFound);
+                return ServiceResult.Error("Kategori bulunamadı", HttpStatusCode.NotFound);
             }
             var hasAny = await unitOfWork.Categories.AnyAsync(x => x.Name == dto.Name && x.Id != id, cancellationToken);
             if (hasAny)
             {
-                return ServiceResult<CategoryDto>.Error("Kategori adı kullanılıyor", HttpStatusCode.BadRequest);
+                return ServiceResult.Error("Kategori adı kullanılıyor", HttpStatusCode.BadRequest);
             }
             var updateCategory = dto.Adapt(category);
             unitOfWork.Categories.Update(updateCategory);
             await unitOfWork.SaveChangesAsync(cancellationToken);
-            var updatedCategory = await unitOfWork.Categories.GetByIdWithProductsAsync(id, cancellationToken);
-            var mappedCategory = updatedCategory.Adapt<CategoryDto>();
-            return ServiceResult<CategoryDto>.SuccessAsOk(mappedCategory);
+
+            return ServiceResult.SuccessAsNoContent();
         }
     }
 }

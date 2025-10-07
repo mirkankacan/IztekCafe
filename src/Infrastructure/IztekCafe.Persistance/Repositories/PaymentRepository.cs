@@ -35,11 +35,18 @@ namespace IztekCafe.Persistance.Repositories
 
         public async Task<bool> UpdateStatusAsync(Guid id, PaymentStatus status, CancellationToken cancellationToken)
         {
-            var payment = await context.Payments.FindAsync(id);
-            if (payment == null) return false;
+            try
+            {
+                var payment = await context.Payments.FindAsync(id);
+                if (payment == null) return false;
 
-            payment.Status = status;
-            return true;
+                payment.Status = status;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

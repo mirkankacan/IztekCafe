@@ -20,7 +20,7 @@ namespace IztekCafe.Persistance.Services
             var hasAnyCategory = await unitOfWork.Categories.AnyAsync(x => x.Id == dto.CategoryId, cancellationToken);
             if (!hasAnyCategory)
             {
-                return ServiceResult<ProductDto>.Error("Kategori bulunamadı", HttpStatusCode.BadRequest);
+                return ServiceResult<ProductDto>.Error("Kategori bulunamadı", HttpStatusCode.NotFound);
             }
             var newProduct = dto.Adapt<Product>();
 
@@ -66,30 +66,28 @@ namespace IztekCafe.Persistance.Services
             return ServiceResult<PagedResult<ProductDto?>>.SuccessAsOk(pagedResult);
         }
 
-        public async Task<ServiceResult<ProductDto>> UpdateAsync(int id, UpdateProductDto dto, CancellationToken cancellationToken)
+        public async Task<ServiceResult> UpdateAsync(int id, UpdateProductDto dto, CancellationToken cancellationToken)
         {
             var product = await unitOfWork.Products.GetByIdAsync(id, cancellationToken);
             if (product is null)
             {
-                return ServiceResult<ProductDto>.Error("Ürün bulunamadı", HttpStatusCode.NotFound);
+                return ServiceResult.Error("Ürün bulunamadı", HttpStatusCode.NotFound);
             }
             var hasAnyProduct = await unitOfWork.Products.AnyAsync(x => x.Name == dto.Name && x.Id != id, cancellationToken);
             if (hasAnyProduct)
             {
-                return ServiceResult<ProductDto>.Error("Ürün adı kullanılıyor", HttpStatusCode.BadRequest);
+                return ServiceResult.Error("Ürün adı kullanılıyor", HttpStatusCode.BadRequest);
             }
             var hasAnyCategory = await unitOfWork.Categories.AnyAsync(x => x.Id == dto.CategoryId, cancellationToken);
             if (!hasAnyCategory)
             {
-                return ServiceResult<ProductDto>.Error("Kategori bulunamadı", HttpStatusCode.BadRequest);
+                return ServiceResult.Error("Kategori bulunamadı", HttpStatusCode.NotFound);
             }
             var updateProduct = dto.Adapt(product);
             unitOfWork.Products.Update(updateProduct);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var updatedProduct = await unitOfWork.Products.GetByIdWithCategoryAndStockAsync(id, cancellationToken);
-            var mappedProduct = updatedProduct.Adapt<ProductDto>();
-            return ServiceResult<ProductDto>.SuccessAsOk(mappedProduct);
+            return ServiceResult.SuccessAsNoContent();
         }
     }
 }

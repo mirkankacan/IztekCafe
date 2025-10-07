@@ -11,7 +11,7 @@ namespace IztekCafe.Application.Contracts.Services
 
         Task<ServiceResult<ProductDetailDto?>> GetByIdAsync(int id, CancellationToken cancellationToken);
 
-        Task<ServiceResult<ProductDto>> UpdateAsync(int id, UpdateProductDto dto, CancellationToken cancellationToken);
+        Task<ServiceResult> UpdateAsync(int id, UpdateProductDto dto, CancellationToken cancellationToken);
 
         Task<ServiceResult<ProductDto>> CreateAsync(CreateProductDto dto, CancellationToken cancellationToken);
 

@@ -20,7 +20,7 @@ namespace IztekCafe.Persistance.Services
             var hasProduct = await unitOfWork.Products.AnyAsync(x => x.Id == dto.ProductId, cancellationToken);
             if (!hasProduct)
             {
-                return ServiceResult<StockDto>.Error("Stok oluşturmak için ilgili ürün bulunamadı", HttpStatusCode.BadRequest);
+                return ServiceResult<StockDto>.Error("Stok oluşturmak için ilgili ürün bulunamadı", HttpStatusCode.NotFound);
             }
             var newStock = dto.Adapt<Stock>();
 
@@ -82,31 +82,29 @@ namespace IztekCafe.Persistance.Services
             var result = await unitOfWork.Stocks.IncreaseStockAsync(productId, quantity, cancellationToken);
             if (!result)
             {
-                return ServiceResult<bool>.Error("Stok bulunamadı", HttpStatusCode.BadRequest);
+                return ServiceResult<bool>.Error("Stok bulunamadı", HttpStatusCode.NotFound);
             }
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return ServiceResult<bool>.SuccessAsOk(true);
         }
 
-        public async Task<ServiceResult<StockDto>> UpdateAsync(int id, UpdateStockDto dto, CancellationToken cancellationToken)
+        public async Task<ServiceResult> UpdateAsync(int id, UpdateStockDto dto, CancellationToken cancellationToken)
         {
             var stock = await unitOfWork.Stocks.GetByIdAsync(id, cancellationToken);
             if (stock is null)
             {
-                return ServiceResult<StockDto>.Error("Ürün bulunamadı", HttpStatusCode.NotFound);
+                return ServiceResult.Error("Ürün bulunamadı", HttpStatusCode.NotFound);
             }
             var hasAny = await unitOfWork.Stocks.AnyAsync(x => x.ProductId == dto.ProductId && x.Id != id, cancellationToken);
             if (hasAny)
             {
-                return ServiceResult<StockDto>.Error("Ürün için stok kaydı oluşturulmuş", HttpStatusCode.BadRequest);
+                return ServiceResult.Error("Ürün için stok kaydı oluşturulmuş", HttpStatusCode.BadRequest);
             }
             var updateStock = dto.Adapt(stock);
             unitOfWork.Stocks.Update(updateStock);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var updatedStock = await unitOfWork.Stocks.GetByIdWithProductAsync(id, cancellationToken);
-            var mappedstock = updatedStock.Adapt<StockDto>();
-            return ServiceResult<StockDto>.SuccessAsOk(mappedstock);
+            return ServiceResult.SuccessAsNoContent();
         }
     }
 }

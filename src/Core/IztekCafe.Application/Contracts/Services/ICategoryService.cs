@@ -11,7 +11,7 @@ namespace IztekCafe.Application.Contracts.Services
 
         Task<ServiceResult<CategoryDetailDto?>> GetByIdAsync(int id, CancellationToken cancellationToken);
 
-        Task<ServiceResult<CategoryDto>> UpdateAsync(int id, UpdateCategoryDto dto, CancellationToken cancellationToken);
+        Task<ServiceResult> UpdateAsync(int id, UpdateCategoryDto dto, CancellationToken cancellationToken);
 
         Task<ServiceResult<CategoryDto>> CreateAsync(CreateCategoryDto dto, CancellationToken cancellationToken);
 

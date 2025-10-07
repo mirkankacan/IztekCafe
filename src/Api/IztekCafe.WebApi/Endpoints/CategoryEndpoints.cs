@@ -60,7 +60,7 @@ namespace IztekCafe.WebApi.Endpoints
             group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCategoryDto dto, [FromServices] ICategoryService categoryService, CancellationToken cancellationToken) =>
             {
                 var result = await categoryService.UpdateAsync(id, dto, cancellationToken);
-                return result.ToGenericResult();
+                return result.ToResult();
             })
              .WithName("UpdateCategory")
              .WithSummary("Bir kategoriyi günceller");

@@ -9,11 +9,17 @@ namespace IztekCafe.Persistance.Repositories
     {
         public async Task<bool> UpdateStatusAsync(int id, TableStatus status, CancellationToken cancellationToken)
         {
-            var table = await context.Tables.FindAsync(id);
-            if (table == null) return false;
-
-            table.Status = status;
-            return true;
+            try
+            {
+                var table = await context.Tables.FindAsync(id);
+                if (table == null) return false;
+                table.Status = status;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

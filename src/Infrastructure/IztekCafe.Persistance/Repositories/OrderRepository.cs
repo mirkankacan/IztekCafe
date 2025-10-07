@@ -46,11 +46,18 @@ namespace IztekCafe.Persistance.Repositories
 
         public async Task<bool> UpdateStatusAsync(Guid id, OrderStatus status, CancellationToken cancellationToken)
         {
-            var order = await context.Orders.FindAsync(id);
-            if (order == null) return false;
+            try
+            {
+                var order = await context.Orders.FindAsync(id);
+                if (order == null) return false;
 
-            order.Status = status;
-            return true;
+                order.Status = status;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

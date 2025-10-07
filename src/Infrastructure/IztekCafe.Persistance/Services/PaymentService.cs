@@ -19,7 +19,7 @@ namespace IztekCafe.Persistance.Services
                 var hasOrder = await unitOfWork.Orders.AnyAsync(x => x.Id == dto.OrderId, cancellationToken);
                 if (!hasOrder)
                 {
-                    return ServiceResult<PaymentDto>.Error("Ödeme için sipariş bulunamadı", HttpStatusCode.BadRequest);
+                    return ServiceResult<PaymentDto>.Error("Ödeme için sipariş bulunamadı", HttpStatusCode.NotFound);
                 }
                 var newPayment = dto.Adapt<Payment>();
                 await unitOfWork.Payments.AddAsync(newPayment, cancellationToken);

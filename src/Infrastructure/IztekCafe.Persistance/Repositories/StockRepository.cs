@@ -10,12 +10,19 @@ namespace IztekCafe.Persistance.Repositories
     {
         public async Task<bool> DecreaseStockAsync(int productId, int quantity, CancellationToken cancellationToken = default)
         {
-            var stock = await context.Stocks.FindAsync(productId);
-            if (stock == null || stock.Quantity < quantity)
-                return false;
+            try
+            {
+                var stock = await context.Stocks.FindAsync(productId);
+                if (stock == null || stock.Quantity < quantity)
+                    return false;
 
-            stock.Quantity -= quantity;
-            return true;
+                stock.Quantity -= quantity;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<Stock?> GetByIdWithProductAsync(int id, CancellationToken cancellationToken)
@@ -49,11 +56,18 @@ namespace IztekCafe.Persistance.Repositories
 
         public async Task<bool> IncreaseStockAsync(int productId, int quantity, CancellationToken cancellationToken = default)
         {
-            var stock = await context.Stocks.FindAsync(productId);
-            if (stock == null) return false;
+            try
+            {
+                var stock = await context.Stocks.FindAsync(productId);
+                if (stock == null) return false;
 
-            stock.Quantity += quantity;
-            return true;
+                stock.Quantity += quantity;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
