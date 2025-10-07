@@ -76,11 +76,12 @@ namespace IztekCafe.Persistance.Services
                 newOrder.OrderCode = GenerateOrderCode();
 
                 await unitOfWork.Orders.AddAsync(newOrder, cancellationToken);
-
+                var productIds = dto.OrderItems.Select(x => x.ProductId).ToList();
+                var products = await unitOfWork.Products.Where(x => productIds.Contains(x.Id)).ToListAsync(cancellationToken);
                 var orderItems = new List<OrderItem>();
                 foreach (var item in dto.OrderItems)
                 {
-                    var product = await unitOfWork.Products.GetFirstOrDefaultAsync(x => x.Id == item.ProductId, cancellationToken);
+                    var product = products.FirstOrDefault(x => x.Id == item.ProductId);
                     if (product is null)
                     {
                         await unitOfWork.RollbackTransactionAsync(cancellationToken);
