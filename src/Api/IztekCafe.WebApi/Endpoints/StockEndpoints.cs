@@ -2,6 +2,7 @@
 using IztekCafe.Application.Contracts.Services;
 using IztekCafe.Application.Dtos.StockDtos;
 using IztekCafe.WebApi.Extensions;
+using IztekCafe.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IztekCafe.WebApi.Endpoints
@@ -55,7 +56,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToGenericResult();
             })
             .WithName("CreateStock")
-            .WithSummary("Bir ürün için yeni bir stok oluşturur");
+            .WithSummary("Bir ürün için yeni bir stok oluşturur")
+            .AddEndpointFilter<ValidationFilter<CreateStockDto>>();
 
             group.MapPut("/{id:int}", async (int id, [FromBody] UpdateStockDto dto, [FromServices] IStockService stockService, CancellationToken cancellationToken) =>
             {
@@ -63,7 +65,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToResult();
             })
              .WithName("UpdateStock")
-             .WithSummary("Bir stoğu günceller");
+             .WithSummary("Bir stoğu günceller")
+             .AddEndpointFilter<ValidationFilter<UpdateStockDto>>();
 
             group.MapDelete("/{id:int}", async (int id, [FromServices] IStockService stockService, CancellationToken cancellationToken) =>
             {

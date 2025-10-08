@@ -2,6 +2,7 @@
 using IztekCafe.Application.Contracts.Services;
 using IztekCafe.Application.Dtos.TableDtos;
 using IztekCafe.WebApi.Extensions;
+using IztekCafe.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IztekCafe.WebApi.Endpoints
@@ -62,7 +63,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToGenericResult();
             })
             .WithName("CreateTable")
-            .WithSummary("Yeni bir masa oluşturur");
+            .WithSummary("Yeni bir masa oluşturur")
+            .AddEndpointFilter<ValidationFilter<CreateTableDto>>();
 
             group.MapPut("/{id:int}", async (int id, [FromBody] UpdateTableDto dto, [FromServices] ITableService tableService, CancellationToken cancellationToken) =>
             {
@@ -70,7 +72,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToResult();
             })
              .WithName("UpdateTable")
-             .WithSummary("Bir masayı günceller");
+             .WithSummary("Bir masayı günceller")
+             .AddEndpointFilter<ValidationFilter<UpdateTableDto>>();
 
             group.MapDelete("/{id:int}", async (int id, [FromServices] ITableService tableService, CancellationToken cancellationToken) =>
             {

@@ -2,6 +2,7 @@
 using IztekCafe.Application.Contracts.Services;
 using IztekCafe.Application.Dtos.CategoryDtos;
 using IztekCafe.WebApi.Extensions;
+using IztekCafe.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IztekCafe.WebApi.Endpoints
@@ -55,7 +56,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToGenericResult();
             })
             .WithName("CreateCategory")
-            .WithSummary("Yeni bir kategori oluşturur");
+            .WithSummary("Yeni bir kategori oluşturur")
+            .AddEndpointFilter<ValidationFilter<CreateCategoryDto>>();
 
             group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCategoryDto dto, [FromServices] ICategoryService categoryService, CancellationToken cancellationToken) =>
             {
@@ -63,7 +65,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToResult();
             })
              .WithName("UpdateCategory")
-             .WithSummary("Bir kategoriyi günceller");
+             .WithSummary("Bir kategoriyi günceller")
+             .AddEndpointFilter<ValidationFilter<UpdateCategoryDto>>();
 
             group.MapDelete("/{id:int}", async (int id, [FromServices] ICategoryService categoryService, CancellationToken cancellationToken) =>
             {

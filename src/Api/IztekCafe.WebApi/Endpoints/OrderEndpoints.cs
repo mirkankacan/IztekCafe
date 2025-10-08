@@ -2,6 +2,7 @@
 using IztekCafe.Application.Contracts.Services;
 using IztekCafe.Application.Dtos.OrderDtos;
 using IztekCafe.WebApi.Extensions;
+using IztekCafe.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IztekCafe.WebApi.Endpoints
@@ -55,7 +56,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToGenericResult();
             })
             .WithName("CreateOrder")
-            .WithSummary("Yeni bir sipariş oluşturur");
+            .WithSummary("Yeni bir sipariş oluşturur")
+            .AddEndpointFilter<ValidationFilter<CreateOrderDto>>();
 
             group.MapPut("/{id:guid}", async (Guid id, [FromBody] UpdateOrderDto dto, [FromServices] IOrderService orderService, CancellationToken cancellationToken) =>
             {
@@ -63,7 +65,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToResult();
             })
              .WithName("UpdateOrder")
-             .WithSummary("Bir siparişi günceller");
+             .WithSummary("Bir siparişi günceller")
+             .AddEndpointFilter<ValidationFilter<UpdateOrderDto>>();
 
             group.MapDelete("/{id:guid}", async (Guid id, [FromServices] IOrderService orderService, CancellationToken cancellationToken) =>
             {

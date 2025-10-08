@@ -2,6 +2,7 @@
 using IztekCafe.Application.Contracts.Services;
 using IztekCafe.Application.Dtos.PaymentDtos;
 using IztekCafe.WebApi.Extensions;
+using IztekCafe.WebApi.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IztekCafe.WebApi.Endpoints
@@ -55,7 +56,8 @@ namespace IztekCafe.WebApi.Endpoints
                 return result.ToGenericResult();
             })
             .WithName("CreatePayment")
-            .WithSummary("Ödeme oluşturur");
+            .WithSummary("Ödeme oluşturur")
+            .AddEndpointFilter<ValidationFilter<CreatePaymentDto>>();
         }
     }
 }
