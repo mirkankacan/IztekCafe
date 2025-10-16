@@ -139,4 +139,4 @@ IztekCafe/
 
 Proje sahibi: [mirkankacan](https://github.com/mirkankacan)
 
-Herhangi bir sorunuz varsa issue açabilir veya email yoluyla iletişime geçebilirsiniz.
+Herhangi bir sorunuz varsa issue açabilir veya [email](mailto:kacanmirkan@gmail.com) yoluyla iletişime geçebilirsiniz.
